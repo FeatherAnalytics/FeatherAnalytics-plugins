@@ -13,6 +13,41 @@ This plugin gives any developer inter- and intra-session continuity via:
 
 The hooks are the backbone — they auto-generate handoffs before context loss, auto-load checkpoints on resume, and track sub-agent work in the checkpoint. The commands are the manual interface for explicit control.
 
+## When This Helps (and When It Doesn't)
+
+### How it compares to built-in Claude Code features
+
+| Feature | What it handles | Gap this plugin fills |
+|---------|----------------|----------------------|
+| **Standard compaction** | Lossy compression of conversation history | Compaction discards reasoning, partial results, and task focus. This plugin captures scope, progress, and remaining work while context is fresh — you control what survives. |
+| **CLAUDE.md files** | Project conventions, coding standards, tool preferences | Great for _how to work_, but limited to ~50K tokens and not designed for tracking _what work is happening_. |
+| **Auto-memory** | Persisted facts about preferences, patterns, and project context | Useful for stable facts, but entries can accumulate and become stale across sessions. Not designed for tracking active work streams. |
+
+**In short:** built-in features handle _how to work_. This plugin handles _what work is happening_ — task state, progress, structured handoffs between sessions, and work stream history.
+
+### Good fit
+
+- Work that spans multiple sessions (multi-day features, large refactors, epics)
+- Sessions that consume a lot of context (reading Confluence pages, analyzing large codebases, research-heavy tasks)
+- Coordinating sub-agents on complex tasks where you need to preserve what each agent discovered
+- Any work where losing context mid-stream means repeating hours of exploration
+
+### Not a good fit
+
+- Short, self-contained sessions where the task starts and finishes in one conversation
+- Small, well-scoped tasks with clear inputs and outputs
+- Simple bug fixes or config changes that don't require multi-step reasoning
+
+### Risks and maintenance
+
+This plugin operates in the same space as Claude Code's compaction and memory systems. As Anthropic evolves those features, interactions are possible. Things to watch for:
+
+- **Compaction behavior changes** — If Anthropic improves compaction to preserve more context, the PreCompact hook's auto-handoff may become partially redundant. The plugin will still work, but you may find you need it less.
+- **Memory system expansion** — If auto-memory gains work-tracking capabilities, some overlap with checkpoints could emerge.
+- **Hook API changes** — The plugin depends on `PreCompact`, `SessionStart`, and `SubagentStop` hook events. Changes to hook timing or input format could require updates.
+
+Stay current with the [Claude Code Changelog](https://code.claude.com/docs/en/changelog) to catch relevant changes early.
+
 ## Install
 
 ```bash
