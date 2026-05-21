@@ -1,0 +1,10 @@
+{
+  "name": "session-continuity",
+  "version": "1.0.0",
+  "description": "Inter- and intra-session continuity: handoffs, checkpoints, and session summaries. Eliminates the amnesia tax.",
+  "author": {
+    "name": "David Hardage"
+  },
+  "commands": ["./commands/"],
+  "rules": ["./rules/"]
+}
