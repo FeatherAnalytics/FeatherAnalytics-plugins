@@ -84,7 +84,7 @@ function getUnmarkedHandoffs(projectDir: string): UnmarkedHandoff[] {
           // Extract session name and summary
           const topicMatch = fm.match(/topic:\s*"?([^"\n]+)"?/);
           results.push({
-            file: filePath.replace(projectDir + '/', ''),
+            file: filePath.replace(projectDir + path.sep, ''),
             session_name: dir.name,
             summary: topicMatch?.[1]?.substring(0, 60) || file
           });

@@ -31,20 +31,20 @@ Hooks cannot be auto-registered by plugins. Add these to your `.claude/settings.
     "PreCompact": [{
       "hooks": [{
         "type": "command",
-        "command": "<plugin-path>/hooks/pre-compact.sh"
+        "command": "npx tsx <plugin-path>/src/pre-compact.ts"
       }]
     }],
     "SessionStart": [{
       "matcher": "resume|compact|clear",
       "hooks": [{
         "type": "command",
-        "command": "<plugin-path>/hooks/session-start.sh"
+        "command": "npx tsx <plugin-path>/src/session-start.ts"
       }]
     }],
     "SubagentStop": [{
       "hooks": [{
         "type": "command",
-        "command": "<plugin-path>/hooks/subagent-stop.sh"
+        "command": "npx tsx <plugin-path>/src/subagent-stop.ts"
       }]
     }]
   }
@@ -59,7 +59,7 @@ Add to your settings for at-a-glance context and checkpoint state:
 
 ```json
 {
-  "statusLine": "<plugin-path>/scripts/status.sh"
+  "statusLine": "npx tsx <plugin-path>/scripts/status.ts"
 }
 ```
 
@@ -67,7 +67,7 @@ Shows: `150.6K 75% | main U:3 | done:Phase 2 now:Phase 3: Current task`
 
 ### Prerequisites
 
-The hooks use `npx tsx` to run TypeScript directly — no build step needed. Ensure `tsx` is available:
+The hooks and scripts use `npx tsx` to run TypeScript directly — no build step needed, and works on macOS, Linux, and Windows. Ensure `tsx` is available:
 
 ```bash
 npm install -g tsx
